@@ -18,9 +18,9 @@ def socket_control(device, status):
 @app.route("/send")
 def send_status():
   print "Sending status"
-  payload = {"device": "Sensor 1", "status": "1"}
+  payload = {"device": device, "status": status}
   r = requests.post("http://192.168.1.69:3000/sync", data=payload)
-  print(r.text)
+  return jsonify(r)
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=80, debug=True)
