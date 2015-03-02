@@ -1,5 +1,9 @@
 from flask import Flask, jsonify, request
 import subprocess
+import sys
+import requests
+from threading import Thread
+from time import sleep
 
 app = Flask(__name__)
 
@@ -15,8 +19,8 @@ def socket_control(device, status):
 def send_status():
   print "Sending status"
   payload = {"device": device, "status": status}
-  r = requests.post("https://192.168.1.69:3000/sync", data=payload)
-  print(r.text)
+  r = requests.post("http://192.168.1.69:3000/sync", data=payload)
+  return jsonify(r)
 
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=80, debug=True)
