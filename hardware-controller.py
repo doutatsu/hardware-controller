@@ -11,10 +11,10 @@ app = Flask(__name__)
 @app.route("/<device>/<status>")
 def socket_control(device, status):
  if status == "1":
-   subprocess.call("sudo ./pihat --repeats=10 --id=1 --channel=0 --state=1",shell=True)
+   subprocess.call("cd pihat && sudo ./pihat --repeats=10 --id=1 --channel=0 --state=1",shell=True)
    return jsonify(device='lights', status='1')
  else:
-   subprocess.call("sudo ./pihat --repeats=10 --id=1 --channel=0 --state=0",shell=True)
+   subprocess.call("cd pihat && sudo ./pihat --repeats=10 --id=1 --channel=0 --state=0",shell=True)
    return jsonify(device='lights', status='0')
 @app.route("/send")
 def send_status():
