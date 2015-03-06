@@ -8,12 +8,12 @@ from time import sleep
 app = Flask(__name__)
 
 # The function below is executed when someone requests a URL with the pin number and action in it:
-@app.route("/<device>/<status>")
-def socket_control(device, status):
- if status == "1":
+@app.route("/switch", method='POST')
+def socket_control():
+ if request.form['status'] == "1":
    subprocess.call("cd pihat && sudo ./pihat --repeats=10 --id=1 --channel=0 --state=1",shell=True)
    return jsonify(device='lights', status='1')
- else:
+ else if request.form['status'] == "0":
    subprocess.call("cd pihat && sudo ./pihat --repeats=10 --id=1 --channel=0 --state=0",shell=True)
    return jsonify(device='lights', status='0')
 @app.route("/send")
