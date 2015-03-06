@@ -10,12 +10,14 @@ app = Flask(__name__)
 # The function below is executed when someone requests a URL with the pin number and action in it:
 @app.route("/switch", methods=['POST'])
 def socket_control():
- if request.form['status'] == "1":
+ if request.form['status'] == "On":
    subprocess.call("cd pihat && sudo ./pihat --repeats=10 --id=1 --channel=0 --state=1",shell=True)
    return jsonify(device='lights', status='1')
- elif request.form['status'] == "0":
+ elif request.form['status'] == "Off":
    subprocess.call("cd pihat && sudo ./pihat --repeats=10 --id=1 --channel=0 --state=0",shell=True)
    return jsonify(device='lights', status='0')
+ else:
+   return jsonify(error='Command not recognised')
 @app.route("/send")
 def send_status():
   print "Sending status"
